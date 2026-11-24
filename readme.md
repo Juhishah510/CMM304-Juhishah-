@@ -9,7 +9,7 @@
 
 > *GenAI Acknowledgment:* This assessment was prepared with assistance from AI tools (Claude, Antigravity, etc.). The AI usage is documented in the reflective statement (`reflective-statement.md`).
 
-## 📌 Executive Summary
+##  Executive Summary
 
 This repository contains the complete, end-to-end coursework submission for **CMM304 Knowledge Modelling and Reasoning**. Grounded in a **Middle-Out** ontology engineering methodology, the project models student employment opportunities across Scotland (Aberdeen, Dundee, Edinburgh, and Glasgow), capturing vacancies, required skills/competencies, employer profiles, recurring shift schedules, and hourly pay.
 
@@ -26,16 +26,14 @@ The repository is structured into four sequential stages mapping directly to the
 
 ```mermaid
 flowchart TD
-    A["Raw Job Adverts\n(stage-2/data/jobs.csv)"] -->|stage-2/populate.py| B["Knowledge Graph\n(stage-2/knowledge-graph.ttl)"]
-    C["Domain Ontology\n(stage-2/studentjobs.ttl)"] --> D["Integrated Knowledge Base"]
+    A["Raw Job Adverts<br/>(stage-2/data/jobs.csv)"] -->|"stage-2/populate.py"| B["Knowledge Graph<br/>(stage-2/knowledge-graph.ttl)"]
+    C["Domain Ontology<br/>(stage-2/studentjobs.ttl)"] --> D["Integrated Knowledge Base"]
     B --> D
-    D -->|HermiT Reasoner (Protégé)| E["Class Inferences\n(StudentFriendlyJob, MultiSkillJob)"]
-    D -->|stage-3/run_queries.py| F["SPARQL Evaluation\n(13 Competency Queries)"]
-    A -->|stage-4/app.py| G["Flask Web Application\n(Interactive CRUD & Search)"]
-    G -->|Automated ETL Trigger| B
+    D -->|"HermiT Reasoner - Protégé"| E["Class Inferences<br/>(StudentFriendlyJob, MultiSkillJob)"]
+    D -->|"stage-3/run_queries.py"| F["SPARQL Evaluation<br/>(13 Competency Queries)"]
+    A -->|"stage-4/app.py"| G["Flask Web Application<br/>(Interactive CRUD & Search)"]
+    G -->|"Automated ETL Trigger"| B
 ```
-
----
 
 ##  Repository Organization
 
@@ -111,7 +109,7 @@ Open `http://127.0.0.1:5000` in a browser.
 
 ---
 
-## 🎯 Competency Questions Summary
+## Competency Questions Summary
 
 | ID | Natural Language Competency Question | Type | Query File |
 |:---|:---|:---|:---|
@@ -131,7 +129,7 @@ Open `http://127.0.0.1:5000` in a browser.
 
 ---
 
-## 📜 Metadata & Licence
+##  Metadata & Licence
 * **Ontology IRI:** <http://example.org/studentjobs>
 * **Author:** Juhi Shah (Student ID: 2617188)
 * **Licence:** Creative Commons Attribution 4.0 International ([CC BY 4.0](https://creativecommons.org/licenses/by/4.0/))
