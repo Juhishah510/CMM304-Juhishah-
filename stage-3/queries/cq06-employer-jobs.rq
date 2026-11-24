@@ -1,0 +1,10 @@
+# CQ6: Which jobs does each employer offer?
+PREFIX sj:   <http://example.org/studentjobs#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?employerName ?title WHERE {
+  ?job sj:offeredBy ?employer ;
+       sj:jobTitle ?title .
+  ?employer rdfs:label ?employerName .
+}
+ORDER BY ?employerName ?title

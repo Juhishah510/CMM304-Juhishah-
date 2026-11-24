@@ -1,0 +1,388 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <https://schema.org/> .
+@prefix sj: <http://example.org/studentjobs#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://example.org/studentjobs> a owl:Ontology ;
+    dcterms:created "2026-10-21"^^xsd:date ;
+    dcterms:creator "Juhi Shah (2617188)" ;
+    dcterms:description "Part-time jobs for students across Scotland, including skills, employers, schedules and locations."@en ;
+    dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
+    dcterms:title "Student Part-Time Jobs Ontology"@en ;
+    owl:versionInfo "0.1" .
+
+sj:BAR01 a sj:Barista ;
+    sj:hasSchedule sj:WeekendSchedule ;
+    sj:hourlyPay 11.5 ;
+    sj:hoursPerWeek 12 ;
+    sj:jobTitle "Barista" ;
+    sj:locatedIn sj:Aberdeen ;
+    sj:offeredBy sj:BrewHouseCafe ;
+    sj:requiresExperience false ;
+    sj:requiresSkill sj:Communication,
+        sj:CustomerService,
+        sj:Teamwork .
+
+sj:BAR02 a sj:Barista ;
+    sj:hasSchedule sj:EveningSchedule ;
+    sj:hourlyPay 11.5 ;
+    sj:hoursPerWeek 10 ;
+    sj:jobTitle "Barista (Evening)" ;
+    sj:locatedIn sj:Dundee ;
+    sj:offeredBy sj:BrewHouseCafe ;
+    sj:requiresExperience false ;
+    sj:requiresSkill sj:Communication,
+        sj:Multitasking,
+        sj:TimeManagement .
+
+sj:DEL01 a sj:DeliveryDriver ;
+    sj:hasSchedule sj:FlexibleSchedule ;
+    sj:hourlyPay 12.5 ;
+    sj:hoursPerWeek 20 ;
+    sj:jobTitle "Delivery Driver" ;
+    sj:locatedIn sj:Aberdeen ;
+    sj:offeredBy sj:HarbourKitchen ;
+    sj:requiresExperience true ;
+    sj:requiresSkill sj:ProblemSolving,
+        sj:TimeManagement .
+
+sj:DEL02 a sj:DeliveryDriver ;
+    sj:hasSchedule sj:FlexibleSchedule ;
+    sj:hourlyPay 12.0 ;
+    sj:hoursPerWeek 15 ;
+    sj:jobTitle "Delivery Rider" ;
+    sj:locatedIn sj:Dundee ;
+    sj:offeredBy sj:NorthernThreads ;
+    sj:requiresExperience false ;
+    sj:requiresSkill sj:PhysicalStamina,
+        sj:ProblemSolving,
+        sj:TimeManagement .
+
+sj:JOB01 a sj:Barista ;
+    sj:hasSchedule sj:WeekendSchedule ;
+    sj:hourlyPay 11.50 ;
+    sj:hoursPerWeek 10 ;
+    sj:jobTitle "Test Job" ;
+    sj:locatedIn sj:Aberdeen ;
+    sj:offeredBy sj:BrewHouseCafe ;
+    sj:requiresExperience false ;
+    sj:requiresSkill sj:Communication .
+
+sj:KIT01 a sj:KitchenAssistant ;
+    sj:hasSchedule sj:EveningSchedule ;
+    sj:hourlyPay 11.0 ;
+    sj:hoursPerWeek 15 ;
+    sj:jobTitle "Kitchen Assistant" ;
+    sj:locatedIn sj:Aberdeen ;
+    sj:offeredBy sj:HarbourKitchen ;
+    sj:requiresExperience false ;
+    sj:requiresSkill sj:FoodHygiene,
+        sj:PhysicalStamina,
+        sj:Teamwork .
+
+sj:KIT02 a sj:KitchenAssistant ;
+    sj:hasSchedule sj:WeekendSchedule ;
+    sj:hourlyPay 11.0 ;
+    sj:hoursPerWeek 12 ;
+    sj:jobTitle "Kitchen Assistant (Weekend)" ;
+    sj:locatedIn sj:Dundee ;
+    sj:offeredBy sj:HarbourKitchen ;
+    sj:requiresExperience false ;
+    sj:requiresSkill sj:FoodHygiene .
+
+sj:MultiSkillJob a owl:Class ;
+    rdfs:label "Multi-skill job"@en ;
+    rdfs:comment "A job that requires at least two skills."@en ;
+    owl:equivalentClass [ a owl:Class ;
+            owl:intersectionOf ( sj:Job [ a owl:Restriction ;
+                        owl:minCardinality "2"^^xsd:nonNegativeInteger ;
+                        owl:onProperty sj:requiresSkill ] ) ] .
+
+sj:RET01 a sj:RetailAssistant ;
+    sj:hasSchedule sj:WeekendSchedule ;
+    sj:hourlyPay 11.2 ;
+    sj:hoursPerWeek 14 ;
+    sj:jobTitle "Retail Assistant" ;
+    sj:locatedIn sj:Glasgow ;
+    sj:offeredBy sj:NorthernThreads ;
+    sj:requiresExperience false ;
+    sj:requiresSkill sj:CashHandling,
+        sj:Communication,
+        sj:CustomerService .
+
+sj:RET02 a sj:RetailAssistant ;
+    sj:hasSchedule sj:FlexibleSchedule ;
+    sj:hourlyPay 11.2 ;
+    sj:hoursPerWeek 16 ;
+    sj:jobTitle "Retail Assistant (Flexible)" ;
+    sj:locatedIn sj:Edinburgh ;
+    sj:offeredBy sj:NorthernThreads ;
+    sj:requiresExperience true ;
+    sj:requiresSkill sj:CashHandling,
+        sj:Communication,
+        sj:Numeracy .
+
+sj:StudentFriendlyJob a owl:Class ;
+    rdfs:label "Student-friendly job"@en ;
+    rdfs:comment "A job with an evening, weekend or flexible schedule that needs no prior experience."@en ;
+    owl:equivalentClass [ a owl:Class ;
+            owl:intersectionOf ( sj:Job [ a owl:Restriction ;
+                        owl:onProperty sj:hasSchedule ;
+                        owl:someValuesFrom [ a owl:Class ;
+                                owl:oneOf ( sj:EveningSchedule sj:FlexibleSchedule sj:WeekendSchedule ) ] ] [ a owl:Restriction ;
+                        owl:hasValue false ;
+                        owl:onProperty sj:requiresExperience ] ) ] .
+
+sj:WAI01 a sj:Waiter ;
+    sj:hasSchedule sj:EveningSchedule ;
+    sj:hourlyPay 11.3 ;
+    sj:hoursPerWeek 16 ;
+    sj:jobTitle "Waiter" ;
+    sj:locatedIn sj:Glasgow ;
+    sj:offeredBy sj:HarbourKitchen ;
+    sj:requiresExperience true ;
+    sj:requiresSkill sj:Communication,
+        sj:CustomerService,
+        sj:Multitasking,
+        sj:TimeManagement .
+
+sj:WAI02 a sj:Waiter ;
+    sj:hasSchedule sj:WeekendSchedule ;
+    sj:hourlyPay 11.3 ;
+    sj:hoursPerWeek 10 ;
+    sj:jobTitle "Waiter (Weekend)" ;
+    sj:locatedIn sj:Edinburgh ;
+    sj:offeredBy sj:BrewHouseCafe ;
+    sj:requiresExperience false ;
+    sj:requiresSkill sj:Communication,
+        sj:CustomerService,
+        sj:Teamwork .
+
+sj:WeekendJob a owl:Class ;
+    rdfs:label "Weekend job"@en ;
+    rdfs:comment "A job whose schedule is the weekend schedule."@en ;
+    owl:equivalentClass [ a owl:Class ;
+            owl:intersectionOf ( sj:Job [ a owl:Restriction ;
+                        owl:hasValue sj:WeekendSchedule ;
+                        owl:onProperty sj:hasSchedule ] ) ] .
+
+sj:hourlyPay a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:label "hourly pay"@en ;
+    rdfs:comment "Pay in pounds per hour."@en ;
+    rdfs:domain sj:Job ;
+    rdfs:range xsd:decimal ;
+    rdfs:seeAlso schema:baseSalary .
+
+sj:hoursPerWeek a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:label "hours per week"@en ;
+    rdfs:comment "Typical weekly working hours."@en ;
+    rdfs:domain sj:Job ;
+    rdfs:range xsd:integer .
+
+sj:jobTitle a owl:DatatypeProperty ;
+    rdfs:label "job title"@en ;
+    rdfs:comment "The advertised title of the job."@en ;
+    rdfs:domain sj:Job ;
+    rdfs:range xsd:string ;
+    rdfs:seeAlso schema:title .
+
+sj:locatedIn a owl:ObjectProperty ;
+    rdfs:label "located in"@en ;
+    rdfs:comment "The Scottish town or city where a vacancy is based."@en ;
+    rdfs:domain sj:Job ;
+    rdfs:range sj:Location .
+
+dcterms:created a owl:AnnotationProperty .
+
+dcterms:creator a owl:AnnotationProperty .
+
+dcterms:description a owl:AnnotationProperty .
+
+dcterms:license a owl:AnnotationProperty .
+
+dcterms:title a owl:AnnotationProperty .
+
+xsd:date a rdfs:Datatype .
+
+sj:offeredBy a owl:FunctionalProperty,
+        owl:ObjectProperty ;
+    rdfs:label "offered by"@en ;
+    rdfs:comment "The employer that offers the job."@en ;
+    rdfs:domain sj:Job ;
+    rdfs:range sj:Employer ;
+    owl:inverseOf sj:offers .
+
+sj:offers a owl:ObjectProperty ;
+    rdfs:label "offers"@en ;
+    rdfs:comment "A job this employer offers."@en ;
+    rdfs:domain sj:Employer ;
+    rdfs:range sj:Job .
+
+sj:requiresExperience a owl:DatatypeProperty,
+        owl:FunctionalProperty ;
+    rdfs:label "requires experience"@en ;
+    rdfs:comment "True if prior experience is needed."@en ;
+    rdfs:domain sj:Job ;
+    rdfs:range xsd:boolean .
+
+sj:Numeracy a sj:Skill ;
+    rdfs:label "Numeracy"@en .
+
+sj:hasSchedule a owl:ObjectProperty ;
+    rdfs:label "has schedule"@en ;
+    rdfs:comment "When the job is worked."@en ;
+    rdfs:domain sj:Job ;
+    rdfs:range sj:WorkSchedule .
+
+sj:CashHandling a sj:Skill ;
+    rdfs:label "Cash handling"@en .
+
+sj:DeliveryDriver a owl:Class ;
+    rdfs:label "Delivery driver"@en ;
+    rdfs:comment "A job delivering goods or food to customers."@en ;
+    rdfs:subClassOf sj:Job .
+
+sj:Edinburgh a sj:Location ;
+    rdfs:label "Edinburgh, Scotland"@en .
+
+sj:FoodHygiene a sj:Skill ;
+    rdfs:label "Food hygiene"@en .
+
+sj:Glasgow a sj:Location ;
+    rdfs:label "Glasgow, Scotland"@en .
+
+sj:KitchenAssistant a owl:Class ;
+    rdfs:label "Kitchen assistant"@en ;
+    rdfs:comment "A job helping with food preparation and cleaning in a kitchen."@en ;
+    rdfs:subClassOf sj:Job .
+
+sj:Multitasking a sj:Skill ;
+    rdfs:label "Multitasking"@en .
+
+sj:PhysicalStamina a sj:Skill ;
+    rdfs:label "Physical stamina"@en .
+
+sj:ProblemSolving a sj:Skill ;
+    rdfs:label "Problem solving"@en .
+
+sj:RetailAssistant a owl:Class ;
+    rdfs:label "Retail assistant"@en ;
+    rdfs:comment "A job serving customers and handling stock and tills in a shop."@en ;
+    rdfs:subClassOf sj:Job .
+
+sj:Waiter a owl:Class ;
+    rdfs:label "Waiter"@en ;
+    rdfs:comment "A job taking orders and serving food and drink to customers."@en ;
+    rdfs:subClassOf sj:Job .
+
+sj:requiresSkill a owl:ObjectProperty ;
+    rdfs:label "requires skill"@en ;
+    rdfs:comment "The job demands this skill."@en ;
+    rdfs:domain sj:Job ;
+    rdfs:range sj:Skill .
+
+sj:Barista a owl:Class ;
+    rdfs:label "Barista"@en ;
+    rdfs:comment "A job preparing and serving coffee and drinks."@en ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:hasValue sj:Communication ;
+            owl:onProperty sj:requiresSkill ],
+        sj:Job .
+
+sj:Dundee a sj:Location ;
+    rdfs:label "Dundee, Scotland"@en .
+
+sj:NorthernThreads a sj:Employer ;
+    rdfs:label "Northern Threads"@en .
+
+sj:Teamwork a sj:Skill ;
+    rdfs:label "Teamwork"@en .
+
+sj:Aberdeen a sj:Location ;
+    rdfs:label "Aberdeen, Scotland"@en .
+
+sj:BrewHouseCafe a sj:Employer ;
+    rdfs:label "BrewHouse Cafe"@en .
+
+sj:CustomerService a sj:Skill ;
+    rdfs:label "Customer service"@en .
+
+sj:EveningSchedule a sj:WorkSchedule,
+        owl:NamedIndividual ;
+    rdfs:label "Evening schedule"@en .
+
+sj:FlexibleSchedule a sj:WorkSchedule,
+        owl:NamedIndividual ;
+    rdfs:label "Flexible schedule"@en .
+
+sj:HarbourKitchen a sj:Employer ;
+    rdfs:label "Harbour Kitchen"@en .
+
+sj:TimeManagement a sj:Skill ;
+    rdfs:label "Time management"@en .
+
+sj:WorkSchedule a owl:Class ;
+    rdfs:label "Work schedule"@en ;
+    rdfs:comment "A recurring pattern of working times."@en .
+
+sj:Employer a owl:Class ;
+    rdfs:label "Employer"@en ;
+    rdfs:comment "An organisation that offers jobs."@en,
+        "Conceptually aligned with schema:Organization."@en ;
+    rdfs:seeAlso schema:Organization .
+
+sj:Location a owl:Class ;
+    rdfs:label "Location"@en ;
+    rdfs:comment "A Scottish town or city where a vacancy is based."@en,
+        "Conceptually aligned with schema:Place."@en ;
+    rdfs:seeAlso schema:Place .
+
+sj:WeekendSchedule a sj:WorkSchedule,
+        owl:NamedIndividual ;
+    rdfs:label "Weekend schedule"@en .
+
+sj:Communication a sj:Skill,
+        owl:NamedIndividual ;
+    rdfs:label "Communication"@en .
+
+sj:Skill a owl:Class ;
+    rdfs:label "Skill"@en ;
+    rdfs:comment "A competence a person needs to do a job well."@en,
+        "Conceptually aligned with European Skills, Competences, Qualifications and Occupations (ESCO) Skill concept."@en ;
+    rdfs:seeAlso <http://data.europa.eu/esco/model#Skill> .
+
+sj:Job a owl:Class ;
+    rdfs:label "Job"@en ;
+    rdfs:comment "A paid part-time vacancy offered by an employer."@en,
+        "Conceptually aligned with schema:JobPosting for recruitment interoperability."@en ;
+    rdfs:seeAlso schema:JobPosting ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:minCardinality "1"^^xsd:nonNegativeInteger ;
+            owl:onProperty sj:requiresSkill ],
+        [ a owl:Restriction ;
+            owl:cardinality "1"^^xsd:nonNegativeInteger ;
+            owl:onProperty sj:offeredBy ] .
+
+[] a owl:AllDifferent ;
+    owl:distinctMembers ( sj:Communication sj:Teamwork sj:TimeManagement sj:CustomerService sj:CashHandling sj:FoodHygiene sj:Multitasking sj:ProblemSolving sj:PhysicalStamina sj:Numeracy ) .
+
+[] a owl:AllDifferent ;
+    owl:distinctMembers ( sj:EveningSchedule sj:WeekendSchedule sj:FlexibleSchedule ) .
+
+[] a owl:AllDifferent ;
+    owl:distinctMembers ( sj:BrewHouseCafe sj:NorthernThreads sj:HarbourKitchen ) .
+
+[] a owl:AllDifferent ;
+    owl:distinctMembers ( sj:Aberdeen sj:Dundee sj:Glasgow sj:Edinburgh ) .
+
+[] a owl:AllDisjointClasses ;
+    owl:members ( sj:Barista sj:DeliveryDriver sj:KitchenAssistant sj:RetailAssistant sj:Waiter ) .
+
+[] a owl:AllDisjointClasses ;
+    owl:members ( sj:Employer sj:Job sj:Location sj:Skill sj:WorkSchedule ) .
+

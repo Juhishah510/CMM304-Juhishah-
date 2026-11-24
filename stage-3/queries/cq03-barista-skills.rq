@@ -1,0 +1,10 @@
+# CQ3: Which skills are required for a barista job?
+PREFIX sj:   <http://example.org/studentjobs#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT DISTINCT ?skillName WHERE {
+  ?job a sj:Barista ;
+       sj:requiresSkill ?skill .
+  ?skill rdfs:label ?skillName .
+}
+ORDER BY ?skillName

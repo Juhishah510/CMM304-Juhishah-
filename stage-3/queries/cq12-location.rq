@@ -1,0 +1,10 @@
+PREFIX sj: <http://example.org/studentjobs#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+# Change sj:Aberdeen to sj:Dundee, sj:Glasgow or sj:Edinburgh.
+SELECT ?job ?title ?city
+WHERE {
+  ?job sj:jobTitle ?title ; sj:locatedIn sj:Aberdeen .
+  sj:Aberdeen rdfs:label ?city .
+}
+ORDER BY ?title

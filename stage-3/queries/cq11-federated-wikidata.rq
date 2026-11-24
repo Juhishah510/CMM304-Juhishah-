@@ -1,0 +1,19 @@
+# CQ11: What does an external knowledge graph (Wikidata) say about a job type? (Federated SPARQL)
+PREFIX sj:     <http://example.org/studentjobs#>
+PREFIX rdfs:   <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX wd:     <http://www.wikidata.org/entity/>
+PREFIX schema: <http://schema.org/>
+
+SELECT ?jobType ?wikidataItem ?externalDescription WHERE {
+  VALUES (?jobType ?wikidataItem) {
+    (sj:Barista wd:Q108437)
+    (sj:Waiter wd:Q207471)
+    (sj:DeliveryDriver wd:Q15978716)
+  }
+  SERVICE <https://query.wikidata.org/sparql> {
+    ?wikidataItem schema:description ?externalDescription .
+    FILTER (lang(?externalDescription) = "en")
+  }
+}
+ORDER BY ?jobType
+

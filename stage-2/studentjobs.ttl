@@ -1,0 +1,324 @@
+@prefix : <http://example.org/studentjobs#> .
+@prefix sj: <http://example.org/studentjobs#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix schema: <https://schema.org/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@base <http://example.org/studentjobs> .
+
+<http://example.org/studentjobs> rdf:type owl:Ontology ;
+                                  dcterms:created "2026-10-21"^^xsd:date ;
+                                  dcterms:creator "Juhi Shah (2617188)" ;
+                                  dcterms:description "Part-time jobs for students across Scotland, including skills, employers, schedules and locations."@en ;
+                                  dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
+                                  dcterms:title "Student Part-Time Jobs Ontology"@en ;
+                                  owl:versionInfo "0.1" .
+
+#################################################################
+#    Annotation properties
+#################################################################
+
+###  http://purl.org/dc/terms/created
+dcterms:created rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/terms/creator
+dcterms:creator rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/terms/description
+dcterms:description rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/terms/license
+dcterms:license rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/terms/title
+dcterms:title rdf:type owl:AnnotationProperty .
+
+
+#################################################################
+#    Datatypes
+#################################################################
+
+###  http://www.w3.org/2001/XMLSchema#date
+xsd:date rdf:type rdfs:Datatype .
+
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://example.org/studentjobs#hasSchedule
+sj:hasSchedule rdf:type owl:ObjectProperty ;
+               rdfs:domain sj:Job ;
+               rdfs:range sj:WorkSchedule ;
+               rdfs:comment "When the job is worked."@en ;
+               rdfs:label "has schedule"@en .
+
+
+###  http://example.org/studentjobs#locatedIn
+sj:locatedIn rdf:type owl:ObjectProperty ;
+             rdfs:domain sj:Job ;
+             rdfs:range sj:Location ;
+             rdfs:comment "The Scottish town or city where a vacancy is based."@en ;
+             rdfs:label "located in"@en .
+
+
+###  http://example.org/studentjobs#offeredBy
+sj:offeredBy rdf:type owl:ObjectProperty ;
+             owl:inverseOf sj:offers ;
+             rdf:type owl:FunctionalProperty ;
+             rdfs:domain sj:Job ;
+             rdfs:range sj:Employer ;
+             rdfs:comment "The employer that offers the job."@en ;
+             rdfs:label "offered by"@en .
+
+
+###  http://example.org/studentjobs#offers
+sj:offers rdf:type owl:ObjectProperty ;
+          rdfs:domain sj:Employer ;
+          rdfs:range sj:Job ;
+          rdfs:comment "A job this employer offers."@en ;
+          rdfs:label "offers"@en .
+
+
+###  http://example.org/studentjobs#requiresSkill
+sj:requiresSkill rdf:type owl:ObjectProperty ;
+                 rdfs:domain sj:Job ;
+                 rdfs:range sj:Skill ;
+                 rdfs:comment "The job demands this skill."@en ;
+                 rdfs:label "requires skill"@en .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://example.org/studentjobs#hourlyPay
+sj:hourlyPay rdf:type owl:DatatypeProperty ,
+                      owl:FunctionalProperty ;
+             rdfs:domain sj:Job ;
+             rdfs:range xsd:decimal ;
+             rdfs:comment "Pay in pounds per hour."@en ;
+             rdfs:label "hourly pay"@en ;
+             rdfs:seeAlso schema:baseSalary .
+
+
+###  http://example.org/studentjobs#hoursPerWeek
+sj:hoursPerWeek rdf:type owl:DatatypeProperty ,
+                         owl:FunctionalProperty ;
+                rdfs:domain sj:Job ;
+                rdfs:range xsd:integer ;
+                rdfs:comment "Typical weekly working hours."@en ;
+                rdfs:label "hours per week"@en .
+
+
+###  http://example.org/studentjobs#jobTitle
+sj:jobTitle rdf:type owl:DatatypeProperty ;
+            rdfs:domain sj:Job ;
+            rdfs:range xsd:string ;
+            rdfs:comment "The advertised title of the job."@en ;
+            rdfs:label "job title"@en ;
+            rdfs:seeAlso schema:title .
+
+
+###  http://example.org/studentjobs#requiresExperience
+sj:requiresExperience rdf:type owl:DatatypeProperty ,
+                               owl:FunctionalProperty ;
+                      rdfs:domain sj:Job ;
+                      rdfs:range xsd:boolean ;
+                      rdfs:comment "True if prior experience is needed."@en ;
+                      rdfs:label "requires experience"@en .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://example.org/studentjobs#Barista
+sj:Barista rdf:type owl:Class ;
+           rdfs:subClassOf sj:Job ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty sj:requiresSkill ;
+                             owl:hasValue sj:Communication
+                           ] ;
+           rdfs:comment "A job preparing and serving coffee and drinks."@en ;
+           rdfs:label "Barista"@en .
+
+
+###  http://example.org/studentjobs#DeliveryDriver
+sj:DeliveryDriver rdf:type owl:Class ;
+                  rdfs:subClassOf sj:Job ;
+                  rdfs:comment "A job delivering goods or food to customers."@en ;
+                  rdfs:label "Delivery driver"@en .
+
+
+###  http://example.org/studentjobs#Employer
+sj:Employer rdf:type owl:Class ;
+            rdfs:comment "An organisation that offers jobs."@en ,
+                         "Conceptually aligned with schema:Organization."@en ;
+            rdfs:label "Employer"@en ;
+            rdfs:seeAlso schema:Organization .
+
+
+###  http://example.org/studentjobs#Job
+sj:Job rdf:type owl:Class ;
+       rdfs:subClassOf [ rdf:type owl:Restriction ;
+                         owl:onProperty sj:requiresSkill ;
+                         owl:minCardinality "1"^^xsd:nonNegativeInteger
+                       ] ,
+                       [ rdf:type owl:Restriction ;
+                         owl:onProperty sj:offeredBy ;
+                         owl:cardinality "1"^^xsd:nonNegativeInteger
+                       ] ;
+       rdfs:comment "A paid part-time vacancy offered by an employer."@en ,
+                    "Conceptually aligned with schema:JobPosting for recruitment interoperability."@en ;
+       rdfs:label "Job"@en ;
+       rdfs:seeAlso schema:JobPosting .
+
+
+###  http://example.org/studentjobs#KitchenAssistant
+sj:KitchenAssistant rdf:type owl:Class ;
+                    rdfs:subClassOf sj:Job ;
+                    rdfs:comment "A job helping with food preparation and cleaning in a kitchen."@en ;
+                    rdfs:label "Kitchen assistant"@en .
+
+
+###  http://example.org/studentjobs#Location
+sj:Location rdf:type owl:Class ;
+            rdfs:comment "A Scottish town or city where a vacancy is based."@en ,
+                         "Conceptually aligned with schema:Place."@en ;
+            rdfs:label "Location"@en ;
+            rdfs:seeAlso schema:Place .
+
+
+###  http://example.org/studentjobs#MultiSkillJob
+sj:MultiSkillJob rdf:type owl:Class ;
+                 owl:equivalentClass [ owl:intersectionOf ( sj:Job
+                                                            [ rdf:type owl:Restriction ;
+                                                              owl:onProperty sj:requiresSkill ;
+                                                              owl:minCardinality "2"^^xsd:nonNegativeInteger
+                                                            ]
+                                                          ) ;
+                                       rdf:type owl:Class
+                                     ] ;
+                 rdfs:comment "A job that requires at least two skills."@en ;
+                 rdfs:label "Multi-skill job"@en .
+
+
+###  http://example.org/studentjobs#RetailAssistant
+sj:RetailAssistant rdf:type owl:Class ;
+                   rdfs:subClassOf sj:Job ;
+                   rdfs:comment "A job serving customers and handling stock and tills in a shop."@en ;
+                   rdfs:label "Retail assistant"@en .
+
+
+###  http://example.org/studentjobs#Skill
+sj:Skill rdf:type owl:Class ;
+         rdfs:comment "A competence a person needs to do a job well."@en ,
+                      "Conceptually aligned with European Skills, Competences, Qualifications and Occupations (ESCO) Skill concept."@en ;
+         rdfs:label "Skill"@en ;
+         rdfs:seeAlso <http://data.europa.eu/esco/model#Skill> .
+
+
+###  http://example.org/studentjobs#StudentFriendlyJob
+sj:StudentFriendlyJob rdf:type owl:Class ;
+                      owl:equivalentClass [ owl:intersectionOf ( sj:Job
+                                                                 [ rdf:type owl:Restriction ;
+                                                                   owl:onProperty sj:hasSchedule ;
+                                                                   owl:someValuesFrom [ rdf:type owl:Class ;
+                                                                                        owl:oneOf ( sj:EveningSchedule
+                                                                                                    sj:FlexibleSchedule
+                                                                                                    sj:WeekendSchedule
+                                                                                                  )
+                                                                                      ]
+                                                                 ]
+                                                                 [ rdf:type owl:Restriction ;
+                                                                   owl:onProperty sj:requiresExperience ;
+                                                                   owl:hasValue "false"^^xsd:boolean
+                                                                 ]
+                                                               ) ;
+                                            rdf:type owl:Class
+                                          ] ;
+                      rdfs:comment "A job with an evening, weekend or flexible schedule that needs no prior experience."@en ;
+                      rdfs:label "Student-friendly job"@en .
+
+
+###  http://example.org/studentjobs#Waiter
+sj:Waiter rdf:type owl:Class ;
+          rdfs:subClassOf sj:Job ;
+          rdfs:comment "A job taking orders and serving food and drink to customers."@en ;
+          rdfs:label "Waiter"@en .
+
+
+###  http://example.org/studentjobs#WeekendJob
+sj:WeekendJob rdf:type owl:Class ;
+              owl:equivalentClass [ owl:intersectionOf ( sj:Job
+                                                         [ rdf:type owl:Restriction ;
+                                                           owl:onProperty sj:hasSchedule ;
+                                                           owl:hasValue sj:WeekendSchedule
+                                                         ]
+                                                       ) ;
+                                    rdf:type owl:Class
+                                  ] ;
+              rdfs:comment "A job whose schedule is the weekend schedule."@en ;
+              rdfs:label "Weekend job"@en .
+
+
+###  http://example.org/studentjobs#WorkSchedule
+sj:WorkSchedule rdf:type owl:Class ;
+                rdfs:comment "A recurring pattern of working times."@en ;
+                rdfs:label "Work schedule"@en .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  http://example.org/studentjobs#Communication
+sj:Communication rdf:type owl:NamedIndividual .
+
+
+###  http://example.org/studentjobs#EveningSchedule
+sj:EveningSchedule rdf:type owl:NamedIndividual .
+
+
+###  http://example.org/studentjobs#FlexibleSchedule
+sj:FlexibleSchedule rdf:type owl:NamedIndividual .
+
+
+###  http://example.org/studentjobs#WeekendSchedule
+sj:WeekendSchedule rdf:type owl:NamedIndividual .
+
+
+#################################################################
+#    General axioms
+#################################################################
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( sj:Barista
+                sj:DeliveryDriver
+                sj:KitchenAssistant
+                sj:RetailAssistant
+                sj:Waiter
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( sj:Employer
+                sj:Job
+                sj:Location
+                sj:Skill
+                sj:WorkSchedule
+              )
+] .
+
+
+###  Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi

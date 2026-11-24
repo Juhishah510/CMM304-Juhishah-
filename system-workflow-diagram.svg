@@ -1,0 +1,167 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 780" width="100%" height="100%" style="background-color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <defs>
+    <!-- Arrowhead markers -->
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#4a5568" />
+    </marker>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2b6cb0" />
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#276749" />
+    </marker>
+    <marker id="arrow-purple" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#6b46c1" />
+    </marker>
+    <!-- Filter for drop shadows -->
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="115%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.1" />
+    </filter>
+  </defs>
+
+  <!-- Title Banner -->
+  <rect x="30" y="20" width="1040" height="55" rx="8" fill="#1a365d" />
+  <text x="550" y="55" text-anchor="middle" fill="#ffffff" font-size="20" font-weight="700">Student Jobs Knowledge Graph &amp; Web App Architecture</text>
+
+  <!-- ==================== STAGE 1 ==================== -->
+  <g filter="url(#shadow)">
+    <rect x="40" y="95" width="230" height="270" rx="10" fill="#ebf8ff" stroke="#3182ce" stroke-width="2" />
+    <rect x="40" y="95" width="230" height="35" rx="10" fill="#3182ce" />
+    <rect x="40" y="120" width="230" height="10" fill="#3182ce" />
+    <text x="155" y="119" text-anchor="middle" fill="#ffffff" font-size="14" font-weight="700">STAGE 1: SPECIFICATION</text>
+    
+    <!-- Box 1A -->
+    <rect x="55" y="145" width="200" height="55" rx="6" fill="#ffffff" stroke="#bee3f8" stroke-width="1.5" />
+    <text x="155" y="167" text-anchor="middle" fill="#2c5282" font-size="12" font-weight="700">Real Scottish Adverts</text>
+    <text x="155" y="185" text-anchor="middle" fill="#4a5568" font-size="11">Aberdeen, Dundee, Edin., Glasg.</text>
+    
+    <!-- Box 1B -->
+    <rect x="55" y="215" width="200" height="65" rx="6" fill="#ffffff" stroke="#bee3f8" stroke-width="1.5" />
+    <text x="155" y="237" text-anchor="middle" fill="#2c5282" font-size="12" font-weight="700">13 Competency Questions</text>
+    <text x="155" y="255" text-anchor="middle" fill="#4a5568" font-size="11">CQ1 to CQ13 (Requirements)</text>
+    <text x="155" y="270" text-anchor="middle" fill="#718096" font-size="10">Middle-Out Strategy &amp; Glossary</text>
+  </g>
+
+  <!-- ==================== STAGE 2 ==================== -->
+  <g filter="url(#shadow)">
+    <rect x="310" y="95" width="460" height="270" rx="10" fill="#f0fff4" stroke="#38a169" stroke-width="2" />
+    <rect x="310" y="95" width="460" height="35" rx="10" fill="#38a169" />
+    <rect x="310" y="120" width="460" height="10" fill="#38a169" />
+    <text x="540" y="119" text-anchor="middle" fill="#ffffff" font-size="14" font-weight="700">STAGE 2: FORMALISATION, REASONING &amp; POPULATION</text>
+    
+    <!-- CSV -->
+    <rect x="325" y="145" width="120" height="50" rx="6" fill="#ffffff" stroke="#c6f6d5" stroke-width="1.5" />
+    <text x="385" y="167" text-anchor="middle" fill="#22543d" font-size="12" font-weight="700">Source CSV</text>
+    <text x="385" y="184" text-anchor="middle" fill="#4a5568" font-size="11">stage-2/jobs.csv</text>
+
+    <!-- ETL Script -->
+    <rect x="470" y="145" width="130" height="50" rx="6" fill="#edf2f7" stroke="#cbd5e0" stroke-width="1.5" />
+    <text x="535" y="167" text-anchor="middle" fill="#2d3748" font-size="12" font-weight="700">ETL Pipeline</text>
+    <text x="535" y="184" text-anchor="middle" fill="#4a5568" font-size="11">populate.py (RDFlib)</text>
+
+    <!-- Turtle Graph -->
+    <rect x="625" y="145" width="130" height="50" rx="6" fill="#ffffff" stroke="#c6f6d5" stroke-width="1.5" />
+    <text x="690" y="167" text-anchor="middle" fill="#22543d" font-size="12" font-weight="700">Knowledge Graph</text>
+    <text x="690" y="184" text-anchor="middle" fill="#4a5568" font-size="11">knowledge-graph.ttl</text>
+
+    <!-- Ontology Box -->
+    <rect x="325" y="215" width="190" height="65" rx="6" fill="#ffffff" stroke="#c6f6d5" stroke-width="1.5" />
+    <text x="420" y="235" text-anchor="middle" fill="#22543d" font-size="12" font-weight="700">OWL 2 Ontology (Schema)</text>
+    <text x="420" y="252" text-anchor="middle" fill="#4a5568" font-size="11">studentjobs.ttl (Classes &amp; Axioms)</text>
+    <text x="420" y="268" text-anchor="middle" fill="#718096" font-size="10">Aligned: schema.org &amp; ESCO</text>
+
+    <!-- HermiT Reasoner -->
+    <rect x="545" y="215" width="210" height="65" rx="6" fill="#feebc8" stroke="#dd6b20" stroke-width="1.5" />
+    <text x="650" y="235" text-anchor="middle" fill="#7b341e" font-size="12" font-weight="700">HermiT Reasoner (Protégé)</text>
+    <text x="650" y="252" text-anchor="middle" fill="#2d3748" font-size="11">★ Inferred: StudentFriendlyJob</text>
+    <text x="650" y="268" text-anchor="middle" fill="#2d3748" font-size="11">★ Inferred: MultiSkillJob</text>
+
+    <!-- Connectors inside Stage 2 -->
+    <line x1="445" y1="170" x2="470" y2="170" stroke="#4a5568" stroke-width="1.5" marker-end="url(#arrow)" />
+    <line x1="600" y1="170" x2="625" y2="170" stroke="#4a5568" stroke-width="1.5" marker-end="url(#arrow)" />
+    <path d="M 690 195 L 690 205 L 650 205 L 650 215" fill="none" stroke="#dd6b20" stroke-width="1.5" marker-end="url(#arrow)" />
+    <path d="M 515 247 L 545 247" fill="none" stroke="#dd6b20" stroke-width="1.5" marker-end="url(#arrow)" />
+  </g>
+
+  <!-- Line from Stage 1 to Stage 2 -->
+  <line x1="255" y1="170" x2="325" y2="170" stroke="#3182ce" stroke-width="2" marker-end="url(#arrow-blue)" />
+
+  <!-- ==================== STAGE 3 ==================== -->
+  <g filter="url(#shadow)">
+    <rect x="40" y="400" width="460" height="260" rx="10" fill="#fffaf0" stroke="#dd6b20" stroke-width="2" />
+    <rect x="40" y="400" width="460" height="35" rx="10" fill="#dd6b20" />
+    <rect x="40" y="425" width="460" height="10" fill="#dd6b20" />
+    <text x="270" y="424" text-anchor="middle" fill="#ffffff" font-size="14" font-weight="700">STAGE 3: EVALUATION &amp; QUALITY ASSURANCE</text>
+
+    <!-- 13 Queries -->
+    <rect x="55" y="450" width="180" height="60" rx="6" fill="#ffffff" stroke="#feebc8" stroke-width="1.5" />
+    <text x="145" y="472" text-anchor="middle" fill="#7b341e" font-size="12" font-weight="700">13 SPARQL Queries</text>
+    <text x="145" y="490" text-anchor="middle" fill="#4a5568" font-size="11">cq01.rq to cq13.rq</text>
+    <text x="145" y="504" text-anchor="middle" fill="#718096" font-size="10">Aggregation, Filtering, Lookup</text>
+
+    <!-- Test Harness -->
+    <rect x="265" y="450" width="215" height="60" rx="6" fill="#ffffff" stroke="#feebc8" stroke-width="1.5" />
+    <text x="372" y="472" text-anchor="middle" fill="#7b341e" font-size="12" font-weight="700">run_queries.py (RDFlib)</text>
+    <text x="372" y="490" text-anchor="middle" fill="#4a5568" font-size="11">Automated execution runner</text>
+    <text x="372" y="504" text-anchor="middle" fill="#718096" font-size="10">expected_answers.py validation</text>
+
+    <!-- Results Box -->
+    <rect x="55" y="530" width="425" height="110" rx="6" fill="#f7fafc" stroke="#e2e8f0" stroke-width="1.5" />
+    <text x="267" y="552" text-anchor="middle" fill="#2d3748" font-size="12" font-weight="700">Evaluation Outcomes &amp; Quality Metrics</text>
+    <text x="75" y="574" fill="#22543d" font-size="11">✔ 100% Query Match with Ground Truth CSV Benchmarks</text>
+    <text x="75" y="594" fill="#22543d" font-size="11">✔ OOPS! Pitfall Scan &amp; Refactoring (P08, P11, P13 resolved)</text>
+    <text x="75" y="614" fill="#22543d" font-size="11">✔ 6 Quality Dimensions Evaluated (Accuracy, Coverage, Coherency)</text>
+
+    <line x1="235" y1="480" x2="265" y2="480" stroke="#dd6b20" stroke-width="1.5" marker-end="url(#arrow)" />
+    <line x1="372" y1="510" x2="372" y2="530" stroke="#dd6b20" stroke-width="1.5" marker-end="url(#arrow)" />
+  </g>
+
+  <!-- Connector from Stage 2 to Stage 3 -->
+  <path d="M 690 195 L 690 380 L 270 380 L 270 400" fill="none" stroke="#38a169" stroke-width="2" marker-end="url(#arrow-green)" />
+
+  <!-- ==================== STAGE 4 ==================== -->
+  <g filter="url(#shadow)">
+    <rect x="540" y="400" width="520" height="260" rx="10" fill="#faf5ff" stroke="#805ad5" stroke-width="2" />
+    <rect x="540" y="400" width="520" height="35" rx="10" fill="#805ad5" />
+    <rect x="540" y="425" width="520" height="10" fill="#805ad5" />
+    <text x="800" y="424" text-anchor="middle" fill="#ffffff" font-size="14" font-weight="700">STAGE 4: WEB APPLICATION &amp; ADVANCED INTEGRATION</text>
+
+    <!-- Flask Backend -->
+    <rect x="560" y="450" width="180" height="60" rx="6" fill="#ffffff" stroke="#e9d8fd" stroke-width="1.5" />
+    <text x="650" y="472" text-anchor="middle" fill="#553c9a" font-size="12" font-weight="700">Flask Service (app.py)</text>
+    <text x="650" y="490" text-anchor="middle" fill="#4a5568" font-size="11">Python Web Backend</text>
+    <text x="650" y="504" text-anchor="middle" fill="#718096" font-size="10">Auto-triggers populate.py</text>
+
+    <!-- Web UI -->
+    <rect x="765" y="450" width="150" height="60" rx="6" fill="#ffffff" stroke="#e9d8fd" stroke-width="1.5" />
+    <text x="840" y="472" text-anchor="middle" fill="#553c9a" font-size="12" font-weight="700">Interactive Web UI</text>
+    <text x="840" y="490" text-anchor="middle" fill="#4a5568" font-size="11">http://127.0.0.1:5000</text>
+    <text x="840" y="504" text-anchor="middle" fill="#718096" font-size="10">Search, City Filter, Edit</text>
+
+    <!-- Wikidata Federation -->
+    <rect x="935" y="450" width="110" height="60" rx="6" fill="#ebf8ff" stroke="#3182ce" stroke-width="1.5" />
+    <text x="990" y="472" text-anchor="middle" fill="#2b6cb0" font-size="11" font-weight="700">Wikidata</text>
+    <text x="990" y="490" text-anchor="middle" fill="#4a5568" font-size="10">Live SPARQL</text>
+    <text x="990" y="504" text-anchor="middle" fill="#718096" font-size="9">SERVICE (cq11)</text>
+
+    <!-- CRUD & Sync Box -->
+    <rect x="560" y="530" width="485" height="110" rx="6" fill="#f7fafc" stroke="#e2e8f0" stroke-width="1.5" />
+    <text x="802" y="552" text-anchor="middle" fill="#2d3748" font-size="12" font-weight="700">Dynamic Knowledge Base Management</text>
+    <text x="580" y="574" fill="#4a5568" font-size="11">● Full CRUD: Create, Read, Update, Delete job records</text>
+    <text x="580" y="594" fill="#4a5568" font-size="11">● Real-time Graph Sync: Modifying a job regenerates knowledge-graph.ttl</text>
+    <text x="580" y="614" fill="#4a5568" font-size="11">● Federated Queries: Pulls live occupation descriptions dynamically</text>
+
+    <line x1="740" y1="480" x2="765" y2="480" stroke="#805ad5" stroke-width="1.5" marker-end="url(#arrow)" />
+    <line x1="915" y1="480" x2="935" y2="480" stroke="#3182ce" stroke-width="1.5" stroke-dasharray="3 3" marker-end="url(#arrow-blue)" />
+    <line x1="650" y1="510" x2="650" y2="530" stroke="#805ad5" stroke-width="1.5" marker-end="url(#arrow)" />
+  </g>
+
+  <!-- Connectors from Stage 2 CSV to Stage 4 Flask -->
+  <path d="M 385 195 L 385 390 L 600 390 L 600 450" fill="none" stroke="#805ad5" stroke-width="2" marker-end="url(#arrow-purple)" />
+  <!-- Feedback loop from Flask CRUD back up to populate.py -->
+  <path d="M 680 450 L 680 375 L 535 375 L 535 195" fill="none" stroke="#38a169" stroke-width="2" stroke-dasharray="4 4" marker-end="url(#arrow-green)" />
+
+  <!-- Footer note -->
+  <text x="550" y="740" text-anchor="middle" fill="#718096" font-size="12">CMM304: Knowledge Modelling and Reasoning • School of Computing • Robert Gordon University</text>
+</svg>
+

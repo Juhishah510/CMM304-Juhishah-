@@ -1,0 +1,13 @@
+# CQ9: Which jobs are student-friendly? (inferred via OWL reasoner)
+PREFIX sj:   <http://example.org/studentjobs#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT DISTINCT ?job ?title ?schedule ?hourlyPay WHERE {
+  ?job a sj:StudentFriendlyJob ;
+       sj:jobTitle ?title ;
+       sj:hasSchedule ?schedUri ;
+       sj:hourlyPay ?hourlyPay .
+  ?schedUri rdfs:label ?schedule .
+}
+ORDER BY ?title
+

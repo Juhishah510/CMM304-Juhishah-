@@ -1,0 +1,9 @@
+PREFIX sj: <http://example.org/studentjobs#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?cityName ?job ?title
+WHERE {
+  ?job sj:jobTitle ?title ; sj:locatedIn ?city ; sj:requiresSkill sj:Communication .
+  ?city rdfs:label ?cityName .
+}
+ORDER BY ?cityName ?title

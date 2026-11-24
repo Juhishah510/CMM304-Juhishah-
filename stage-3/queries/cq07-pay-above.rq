@@ -1,0 +1,10 @@
+# CQ7: Which jobs pay more than a given hourly rate?
+# Change 11.30 to the rate you want.
+PREFIX sj: <http://example.org/studentjobs#>
+
+SELECT ?job ?title ?pay WHERE {
+  ?job sj:hourlyPay ?pay ;
+       sj:jobTitle ?title .
+  FILTER (?pay > 11.30)
+}
+ORDER BY DESC(?pay) ?job

@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Scottish Student Jobs — Semantic Knowledge Graph Explorer</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome 6 Icons CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: { 50: '#eef2ff', 100: '#e0e7ff', 500: '#6366f1', 600: '#4f46e5', 700: '#4338ca', 800: '#3730a3', 900: '#312e81' }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col">
+
+  <!-- Navbar -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-500 flex items-center justify-center text-white shadow-md shadow-brand-500/20">
+          <i class="fa-solid fa-graduation-cap text-lg"></i>
+        </div>
+        <div>
+          <a href="{{ url_for('index') }}" class="text-lg font-bold text-slate-900 tracking-tight hover:text-brand-600 transition">
+            EduJobs <span class="text-brand-600">Scotland</span>
+          </a>
+          <p class="text-xs text-slate-500">Semantic Web Knowledge Graph Explorer</p>
+        </div>
+      </div>
+      
+      <div class="flex items-center space-x-3">
+        <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse mr-1.5"></span>
+          RDF Graph Synced (386 Triples)
+        </span>
+        <button onclick="openAddModal()" class="inline-flex items-center space-x-2 px-3.5 py-2 rounded-lg bg-brand-600 text-white text-xs font-semibold hover:bg-brand-700 transition shadow-sm">
+          <i class="fa-solid fa-plus"></i>
+          <span>Add Vacancy</span>
+        </button>
+        <a href="{{ url_for('view_graph') }}" target="_blank" class="px-3 py-2 rounded-lg border border-slate-200 text-slate-700 text-xs font-semibold hover:bg-slate-100 transition inline-flex items-center space-x-1.5">
+          <i class="fa-solid fa-diagram-project text-brand-600"></i>
+          <span>View RDF Turtle</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero & Filter Section -->
+  <section class="bg-gradient-to-br from-brand-900 via-indigo-900 to-slate-900 text-white pt-10 pb-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto">
+      <div class="max-w-3xl">
+        <span class="inline-block py-1 px-3 rounded-full text-xs font-semibold tracking-wide bg-brand-500/30 text-brand-200 border border-brand-400/30 mb-3">
+          CMM304 Coursework • Symbolic AI &amp; Reasoning
+        </span>
+        <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">
+          Find Student Part-Time Jobs Across Scotland
+        </h1>
+        <p class="mt-2 text-slate-300 text-sm sm:text-base">
+          Querying OWL 2 domain ontology &amp; HermiT reasoner inferences across Aberdeen, Dundee, Edinburgh, and Glasgow.
+        </p>
+      </div>
+
+      <!-- Search Box Card -->
+      <form method="get" action="{{ url_for('index') }}" class="mt-8 bg-white/95 backdrop-blur-md rounded-2xl p-4 shadow-xl border border-white/20 text-slate-800">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-3 items-center">
+          <!-- Skill Search -->
+          <div class="md:col-span-5 relative">
+            <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Search Skill, Role or Keyword</label>
+            <div class="relative">
+              <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-400 text-sm"></i>
+              <input type="text" name="skill" value="{{ skill }}" placeholder="e.g. Teamwork, Barista, Communication, Retail"
+                     class="w-full pl-10 pr-4 py-2 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 text-sm">
+            </div>
+          </div>
+
+          <!-- Location Dropdown -->
+          <div class="md:col-span-3">
+            <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Scottish City</label>
+            <div class="relative">
+              <select name="location" class="w-full px-3 py-2 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm bg-white">
+                <option value="">All Scottish Cities</option>
+                {% for c in cities %}
+                <option value="{{ c }}" {% if c == location %}selected{% endif %}>📍 {{ c }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+
+          <!-- Schedule Dropdown -->
+          <div class="md:col-span-2">
+            <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Shift Pattern</label>
+            <select name="schedule" class="w-full px-3 py-2 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm bg-white">
+              <option value="">All Schedules</option>
+              <option value="WeekendSchedule" {% if schedule == 'WeekendSchedule' %}selected{% endif %}>Weekend</option>
+              <option value="EveningSchedule" {% if schedule == 'EveningSchedule' %}selected{% endif %}>Evening</option>
+              <option value="FlexibleSchedule" {% if schedule == 'FlexibleSchedule' %}selected{% endif %}>Flexible</option>
+            </select>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="md:col-span-2 flex items-end space-x-2 pt-5">
+            <button type="submit" class="w-full py-2 px-4 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold text-sm transition shadow-md flex items-center justify-center space-x-1.5">
+              <i class="fa-solid fa-filter"></i>
+              <span>Filter</span>
+            </button>
+            <a href="{{ url_for('index') }}" class="p-2 rounded-xl border border-slate-200 text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition" title="Reset Filters">
+              <i class="fa-solid fa-rotate-left"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Quick Filter Chips -->
+        <div class="mt-3 pt-3 border-t border-slate-100 flex flex-wrap items-center gap-2 text-xs">
+          <span class="text-slate-400 font-medium">Quick Filters:</span>
+          {% for sk in ['Communication', 'CustomerService', 'Teamwork', 'FoodHygiene', 'CashHandling', 'TimeManagement'] %}
+          <a href="{{ url_for('index', skill=sk, location=location) }}" 
+             class="px-2.5 py-1 rounded-full {% if skill|lower == sk|lower %}bg-brand-600 text-white{% else %}bg-slate-100 text-slate-600 hover:bg-slate-200{% endif %} transition">
+            #{{ sk }}
+          </a>
+          {% endfor %}
+          <label class="ml-auto flex items-center space-x-1.5 text-xs text-slate-600 cursor-pointer">
+            <input type="checkbox" name="student_friendly" value="true" {% if student_friendly %}checked{% endif %} onchange="this.form.submit()" class="rounded text-brand-600 focus:ring-brand-500">
+            <span class="font-semibold text-amber-600">⭐ Student-Friendly Only (Inferred)</span>
+          </label>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
+    
+    <!-- Results Header -->
+    <div class="flex items-center justify-between mb-6">
+      <div>
+        <h2 class="text-xl font-bold text-slate-900">
+          Available Part-Time Vacancies
+        </h2>
+        <p class="text-xs text-slate-500 mt-0.5">
+          Showing <span class="font-bold text-slate-700">{{ jobs|length }}</span> matching roles in the knowledge base
+        </p>
+      </div>
+
+      <!-- Live Statistics Badges -->
+      <div class="hidden sm:flex items-center space-x-3 text-xs">
+        <span class="px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-600 shadow-sm font-medium">
+          <i class="fa-solid fa-city text-indigo-500 mr-1.5"></i>4 Scottish Cities
+        </span>
+        <span class="px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-600 shadow-sm font-medium">
+          <i class="fa-solid fa-briefcase text-emerald-500 mr-1.5"></i>5 Job Categories
+        </span>
+        <span class="px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-600 shadow-sm font-medium">
+          <i class="fa-solid fa-star text-amber-500 mr-1.5"></i>7 Inferred Student-Friendly
+        </span>
+      </div>
+    </div>
+
+    <!-- Vacancy Grid -->
+    {% if jobs %}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      {% for j in jobs %}
+      {% set is_student_friendly = (j.requires_experience|lower == 'false') and (j.schedule in ['WeekendSchedule', 'EveningSchedule', 'FlexibleSchedule']) %}
+      <div class="bg-white rounded-2xl border border-slate-200 hover:border-brand-300 hover:shadow-lg transition-all duration-200 flex flex-col overflow-hidden relative group">
+        
+        <!-- Card Top Bar -->
+        <div class="p-5 pb-3">
+          <div class="flex items-start justify-between">
+            <div class="flex items-center space-x-3">
+              <!-- Role Icon based on job type -->
+              <div class="w-11 h-11 rounded-xl flex items-center justify-center text-lg shadow-sm
+                {% if j.type == 'Barista' %}bg-amber-50 text-amber-700 border border-amber-200
+                {% elif j.type == 'RetailAssistant' %}bg-blue-50 text-blue-700 border border-blue-200
+                {% elif j.type == 'KitchenAssistant' %}bg-orange-50 text-orange-700 border border-orange-200
+                {% elif j.type == 'Waiter' %}bg-rose-50 text-rose-700 border border-rose-200
+                {% else %}bg-purple-50 text-purple-700 border border-purple-200{% endif %}">
+                {% if j.type == 'Barista' %}<i class="fa-solid fa-mug-hot"></i>
+                {% elif j.type == 'RetailAssistant' %}<i class="fa-solid fa-shirt"></i>
+                {% elif j.type == 'KitchenAssistant' %}<i class="fa-solid fa-utensils"></i>
+                {% elif j.type == 'Waiter' %}<i class="fa-solid fa-bell-concierge"></i>
+                {% else %}<i class="fa-solid fa-bicycle"></i>{% endif %}
+              </div>
+              <div>
+                <h3 class="font-bold text-slate-900 text-base group-hover:text-brand-600 transition">
+                  {{ j.title }}
+                </h3>
+                <p class="text-xs font-semibold text-slate-500 flex items-center space-x-1">
+                  <span>{{ j.employer }}</span>
+                  <span class="text-slate-300">•</span>
+                  <span class="text-slate-400 font-mono">{{ j.id }}</span>
+                </p>
+              </div>
+            </div>
+
+            <!-- Inferred Badge -->
+            {% if is_student_friendly %}
+            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-bold bg-amber-50 text-amber-700 border border-amber-200 shadow-xs" title="HermiT Description Logic Inference: Zero Experience + Student-Friendly Shift">
+              <i class="fa-solid fa-star text-amber-500 mr-1 text-[10px]"></i>Student-Friendly
+            </span>
+            {% endif %}
+          </div>
+
+          <!-- Metadata Badges -->
+          <div class="mt-4 flex flex-wrap gap-1.5 text-xs">
+            <span class="inline-flex items-center px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 font-medium">
+              <i class="fa-solid fa-location-dot text-slate-400 mr-1.5"></i>{{ j.location }}
+            </span>
+            <span class="inline-flex items-center px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 font-medium">
+              <i class="fa-regular fa-clock text-slate-400 mr-1.5"></i>{{ j.schedule.replace('Schedule', '') }} Shift
+            </span>
+            <span class="inline-flex items-center px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 font-medium">
+              <i class="fa-solid fa-business-time text-slate-400 mr-1.5"></i>{{ j.hours_per_week }} hrs/wk
+            </span>
+          </div>
+
+          <!-- Pay Highlight -->
+          <div class="mt-3 pt-3 border-t border-slate-100 flex items-center justify-between">
+            <div class="text-xs text-slate-500">Hourly Wage:</div>
+            <div class="text-base font-extrabold text-emerald-600 font-mono">
+              £{{ "%.2f"|format(j.hourly_pay|float) }}<span class="text-xs font-normal text-slate-400">/hr</span>
+            </div>
+          </div>
+
+          <!-- Skills Pills -->
+          <div class="mt-3">
+            <div class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Required Competencies:</div>
+            <div class="flex flex-wrap gap-1">
+              {% for s in j.skills.split(';') if s %}
+              <span class="inline-block px-2 py-0.5 rounded-md text-[11px] font-medium bg-brand-50 text-brand-700 border border-brand-100">
+                {{ s }}
+              </span>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+
+        <!-- Card Footer Actions -->
+        <div class="mt-auto px-5 py-3 bg-slate-50/80 border-t border-slate-100 flex items-center justify-between text-xs">
+          <button onclick="openWikidataModal('{{ j.type }}', '{{ j.title }}')" class="text-indigo-600 hover:text-indigo-800 font-semibold inline-flex items-center space-x-1">
+            <i class="fa-solid fa-globe text-xs"></i>
+            <span>Wikidata Info</span>
+          </button>
+          
+          <div class="flex items-center space-x-2">
+            <a href="{{ url_for('edit', job_id=j.id) }}" class="px-2.5 py-1 rounded-lg border border-slate-200 text-slate-700 hover:bg-slate-200 transition font-medium">
+              <i class="fa-regular fa-pen-to-square mr-1"></i>Edit
+            </a>
+            <form method="post" action="{{ url_for('delete', job_id=j.id) }}" onsubmit="return confirm('Are you sure you want to delete {{ j.id }} ({{ j.title }})?')" class="inline">
+              <button type="submit" class="px-2.5 py-1 rounded-lg border border-rose-200 text-rose-600 hover:bg-rose-50 transition font-medium">
+                <i class="fa-regular fa-trash-can mr-1"></i>Delete
+              </button>
+            </form>
+          </div>
+        </div>
+
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <!-- Empty State -->
+    <div class="text-center py-16 bg-white rounded-2xl border border-slate-200">
+      <div class="w-16 h-16 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center mx-auto text-2xl mb-4">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </div>
+      <h3 class="text-lg font-bold text-slate-800">No matching vacancies found</h3>
+      <p class="text-slate-500 text-xs mt-1">Try resetting your filters or searching for another skill.</p>
+      <a href="{{ url_for('index') }}" class="mt-4 inline-block px-4 py-2 rounded-xl bg-brand-600 text-white text-xs font-semibold hover:bg-brand-700 transition">
+        Reset All Filters
+      </a>
+    </div>
+    {% endif %}
+
+  </main>
+
+  <!-- Modal: Add New Vacancy -->
+  <div id="addModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full overflow-hidden border border-slate-200">
+      <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50">
+        <div class="flex items-center space-x-2">
+          <div class="w-8 h-8 rounded-lg bg-brand-600 text-white flex items-center justify-center text-sm">
+            <i class="fa-solid fa-plus"></i>
+          </div>
+          <div>
+            <h3 class="font-bold text-slate-900 text-sm">Add New Student Vacancy</h3>
+            <p class="text-xs text-slate-500">Persists to CSV &amp; regenerates RDF triples automatically</p>
+          </div>
+        </div>
+        <button onclick="closeAddModal()" class="text-slate-400 hover:text-slate-600 text-lg">&times;</button>
+      </div>
+
+      <form method="post" action="{{ url_for('add') }}" class="p-6 space-y-4 text-xs">
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Job Title</label>
+          <input name="title" required placeholder="e.g. Barista (Weekend), Delivery Rider" class="w-full px-3 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-brand-500 text-sm">
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Job Role Type</label>
+            <select name="type" required class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm bg-white">
+              <option value="Barista">Barista</option>
+              <option value="RetailAssistant">Retail Assistant</option>
+              <option value="KitchenAssistant">Kitchen Assistant</option>
+              <option value="Waiter">Waiter</option>
+              <option value="DeliveryDriver">Delivery Driver</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Employer</label>
+            <select name="employer" required class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm bg-white">
+              <option value="BrewHouseCafe">BrewHouse Cafe</option>
+              <option value="NorthernThreads">Northern Threads</option>
+              <option value="HarbourKitchen">Harbour Kitchen</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Scottish Location</label>
+            <select name="location" required class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm bg-white">
+              <option value="Aberdeen">Aberdeen</option>
+              <option value="Dundee">Dundee</option>
+              <option value="Edinburgh">Edinburgh</option>
+              <option value="Glasgow">Glasgow</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Work Schedule</label>
+            <select name="schedule" required class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm bg-white">
+              <option value="WeekendSchedule">Weekend Schedule</option>
+              <option value="EveningSchedule">Evening Schedule</option>
+              <option value="FlexibleSchedule">Flexible Schedule</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-3 gap-3">
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Hourly Pay (£)</label>
+            <input type="number" step="0.10" name="hourly_pay" value="11.50" required class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm">
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Hours / Week</label>
+            <input type="number" name="hours_per_week" value="12" required class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm">
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Requires Exp.?</label>
+            <select name="requires_experience" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm bg-white">
+              <option value="false">No (Student-Friendly)</option>
+              <option value="true">Yes</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Required Competencies (Semicolon-separated)</label>
+          <input name="skills" required placeholder="Communication;Teamwork;CustomerService" value="Communication;CustomerService" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm">
+          <p class="text-[11px] text-slate-400 mt-1">Available: Communication, Teamwork, TimeManagement, CustomerService, CashHandling, FoodHygiene, Multitasking</p>
+        </div>
+
+        <div class="pt-3 border-t border-slate-100 flex items-center justify-end space-x-2">
+          <button type="button" onclick="closeAddModal()" class="px-4 py-2 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-100 transition font-semibold text-xs">
+            Cancel
+          </button>
+          <button type="submit" class="px-5 py-2 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold text-xs transition shadow-md">
+            Save Vacancy
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Wikidata Semantic Info -->
+  <div id="wikiModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden border border-slate-200">
+      <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-indigo-50">
+        <div class="flex items-center space-x-2">
+          <i class="fa-solid fa-globe text-brand-600 text-base"></i>
+          <h3 class="font-bold text-slate-900 text-sm">Wikidata Linked Data Context</h3>
+        </div>
+        <button onclick="closeWikiModal()" class="text-slate-400 hover:text-slate-600 text-lg">&times;</button>
+      </div>
+      <div class="p-6 space-y-3 text-xs">
+        <p class="text-slate-600">
+          This role is mapped to the global **Wikidata Knowledge Base** via the SPARQL <code class="bg-slate-100 px-1 py-0.5 rounded text-indigo-600 font-mono">SERVICE</code> federation pattern:
+        </p>
+        <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-2">
+          <div class="flex justify-between">
+            <span class="text-slate-400">Target Role:</span>
+            <span id="wikiRole" class="font-bold text-slate-800"></span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-slate-400">Wikidata QID:</span>
+            <span id="wikiQid" class="font-mono text-brand-600 font-semibold"></span>
+          </div>
+          <div class="pt-2 border-t border-slate-200/60">
+            <span class="text-slate-400 block mb-1">Wikidata Encyclopedic Description:</span>
+            <p id="wikiDesc" class="italic text-slate-700 bg-white p-2.5 rounded-lg border border-slate-100"></p>
+          </div>
+        </div>
+        <p class="text-[11px] text-slate-400">
+          Demonstrated in query <code class="font-mono">cq11-federated-wikidata.rq</code>.
+        </p>
+      </div>
+      <div class="px-6 py-3 bg-slate-50 border-t border-slate-100 flex justify-end">
+        <button onclick="closeWikiModal()" class="px-4 py-1.5 rounded-xl bg-slate-200 text-slate-700 font-semibold text-xs hover:bg-slate-300 transition">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t border-slate-200 py-6 text-xs text-slate-500 text-center">
+    <div class="max-w-7xl mx-auto px-4 space-y-1">
+      <p>CMM304 Knowledge Modelling &amp; Reasoning Coursework • MSc Artificial Intelligence</p>
+      <p>School of Computing • Robert Gordon University (RGU) • Candidate: Juhi Shah (2617188)</p>
+    </div>
+  </footer>
+
+  <script>
+    function openAddModal() {
+      const modal = document.getElementById('addModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+    function closeAddModal() {
+      const modal = document.getElementById('addModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    const wikiDescriptions = {
+      'Barista': { qid: 'wd:Q108437', desc: 'A person who prepares and serves espresso-based coffee drinks professionally.' },
+      'Waiter': { qid: 'wd:Q207471', desc: 'A person who waits tables, takes food and beverage orders, and serves customers in a dining establishment.' },
+      'DeliveryDriver': { qid: 'wd:Q15978716', desc: 'A person who drives a vehicle or rides a bicycle to deliver goods, packages, or food to customer locations.' },
+      'RetailAssistant': { qid: 'wd:Q1151639', desc: 'A person who sells goods in a store, assists shoppers, operates tills, and maintains shelf stock.' },
+      'KitchenAssistant': { qid: 'wd:Q483501', desc: 'A person who assists chefs and cooks with meal preparation, ingredient prep, and sanitising culinary equipment.' }
+    };
+
+    function openWikiModal(type, title) {
+      const modal = document.getElementById('wikiModal');
+      document.getElementById('wikiRole').innerText = title + ' (' + type + ')';
+      const info = wikiDescriptions[type] || { qid: 'wd:Q28640', desc: 'General employment profession occupation.' };
+      document.getElementById('wikiQid').innerText = info.qid;
+      document.getElementById('wikiDesc').innerText = '"' + info.desc + '"';
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+    function closeWikiModal() {
+      const modal = document.getElementById('wikiModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+  </script>
+</body>
+</html>
+

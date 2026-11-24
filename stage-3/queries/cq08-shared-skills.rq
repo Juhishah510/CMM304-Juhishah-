@@ -1,0 +1,13 @@
+# CQ8: Which skills are required by more than one job type?
+PREFIX sj:   <http://example.org/studentjobs#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?skillName (COUNT(DISTINCT ?type) AS ?jobTypes) WHERE {
+  ?job a ?type ;
+       sj:requiresSkill ?skill .
+  ?type rdfs:subClassOf sj:Job .
+  ?skill rdfs:label ?skillName .
+}
+GROUP BY ?skillName
+HAVING (COUNT(DISTINCT ?type) > 1)
+ORDER BY DESC(?jobTypes) ?skillName

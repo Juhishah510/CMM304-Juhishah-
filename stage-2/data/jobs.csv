@@ -1,0 +1,12 @@
+id,title,type,employer,schedule,skills,hourly_pay,hours_per_week,requires_experience,location
+BAR01,Barista,Barista,BrewHouseCafe,WeekendSchedule,Communication;Teamwork;CustomerService,11.5,12,FALSE,Aberdeen
+BAR02,Barista (Evening),Barista,BrewHouseCafe,EveningSchedule,Communication;TimeManagement;Multitasking,11.5,10,FALSE,Dundee
+RET01,Retail Assistant,RetailAssistant,NorthernThreads,WeekendSchedule,Communication;CashHandling;CustomerService,11.2,14,FALSE,Glasgow
+RET02,Retail Assistant (Flexible),RetailAssistant,NorthernThreads,FlexibleSchedule,Communication;Numeracy;CashHandling,11.2,16,TRUE,Edinburgh
+KIT01,Kitchen Assistant,KitchenAssistant,HarbourKitchen,EveningSchedule,Teamwork;FoodHygiene;PhysicalStamina,11,15,FALSE,Aberdeen
+KIT02,Kitchen Assistant (Weekend),KitchenAssistant,HarbourKitchen,WeekendSchedule,FoodHygiene,11,12,FALSE,Dundee
+WAI01,Waiter,Waiter,HarbourKitchen,EveningSchedule,Communication;CustomerService;Multitasking;TimeManagement,11.3,16,TRUE,Glasgow
+WAI02,Waiter (Weekend),Waiter,BrewHouseCafe,WeekendSchedule,Communication;CustomerService;Teamwork,11.3,10,FALSE,Edinburgh
+DEL01,Delivery Driver,DeliveryDriver,HarbourKitchen,FlexibleSchedule,TimeManagement;ProblemSolving,12.5,20,TRUE,Aberdeen
+DEL02,Delivery Rider,DeliveryDriver,NorthernThreads,FlexibleSchedule,TimeManagement;ProblemSolving;PhysicalStamina,12,15,FALSE,Dundee
+JOB01,Test Job,Barista,BrewHouseCafe,WeekendSchedule,Communication,11.50,10,false,Aberdeen

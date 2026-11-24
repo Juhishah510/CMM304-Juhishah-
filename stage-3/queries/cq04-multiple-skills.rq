@@ -1,0 +1,10 @@
+# CQ4: Which jobs require more than one skill?
+PREFIX sj: <http://example.org/studentjobs#>
+
+SELECT ?job ?title (COUNT(DISTINCT ?skill) AS ?skillCount) WHERE {
+  ?job sj:requiresSkill ?skill ;
+       sj:jobTitle ?title .
+}
+GROUP BY ?job ?title
+HAVING (COUNT(DISTINCT ?skill) > 1)
+ORDER BY DESC(?skillCount) ?job

@@ -1,0 +1,14 @@
+# CQ10: Which jobs can someone with a given set of skills do?
+# A job qualifies if none of its required skills falls outside the set.
+# Edit the skill list in the IN (...) clause.
+PREFIX sj: <http://example.org/studentjobs#>
+
+SELECT DISTINCT ?job ?title WHERE {
+  ?job sj:requiresSkill ?anySkill ;
+       sj:jobTitle ?title .
+  FILTER NOT EXISTS {
+    ?job sj:requiresSkill ?other .
+    FILTER (?other NOT IN (sj:Communication, sj:Teamwork, sj:CustomerService, sj:TimeManagement, sj:Multitasking))
+  }
+}
+ORDER BY ?job

@@ -1,0 +1,8 @@
+# CQ1: Which jobs require communication skills?
+PREFIX sj: <http://example.org/studentjobs#>
+
+SELECT ?job ?title WHERE {
+  ?job sj:requiresSkill sj:Communication ;
+       sj:jobTitle ?title .
+}
+ORDER BY ?job

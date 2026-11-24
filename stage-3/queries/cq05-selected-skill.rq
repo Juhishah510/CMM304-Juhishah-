@@ -1,0 +1,9 @@
+# CQ5: Which jobs match a selected skill?
+# Change sj:TimeManagement to any skill individual. The web app will pass this in as a parameter.
+PREFIX sj: <http://example.org/studentjobs#>
+
+SELECT ?job ?title WHERE {
+  ?job sj:requiresSkill sj:TimeManagement ;
+       sj:jobTitle ?title .
+}
+ORDER BY ?job
