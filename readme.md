@@ -9,7 +9,7 @@
 
 > *GenAI Acknowledgment (Category 5: Full AI):* I acknowledge the use of Anthropic Claude (https://claude.ai) and Google Antigravity / Gemini to assist in completing this assessment — including conceptual brainstorming, formatting and editing Markdown reports, generating SVG architecture/conceptual diagrams, scaffolding OWL/Turtle syntax, and drafting Python/SPARQL/HTML code. All AI usage and human verification are transparently documented in [`reflective-statement.md`](reflective-statement.md).
 
-## 📌 Executive Summary
+##  Executive Summary
 
 This repository contains the complete, end-to-end coursework submission for **CMM304 Knowledge Modelling and Reasoning**. Grounded in a **Middle-Out** ontology engineering methodology, the project models student employment opportunities across Scotland (Aberdeen, Dundee, Edinburgh, and Glasgow), capturing vacancies, required skills/competencies, employer profiles, recurring shift schedules, and hourly pay.
 
@@ -111,7 +111,7 @@ Open `http://127.0.0.1:5000` in a browser.
 
 ---
 
-## 🎯 Competency Questions Summary
+## Competency Questions Summary
 
 | ID | Natural Language Competency Question | Type | Query File |
 |:---|:---|:---|:---|
@@ -131,7 +131,7 @@ Open `http://127.0.0.1:5000` in a browser.
 
 ---
 
-## 📜 Metadata & Licence
+##  Metadata & Licence
 * **Ontology IRI:** <http://example.org/studentjobs>
 * **Author:** Juhi Shah (Student ID: 2617188)
 * **Licence:** Creative Commons Attribution 4.0 International ([CC BY 4.0](https://creativecommons.org/licenses/by/4.0/))
