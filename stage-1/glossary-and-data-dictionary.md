@@ -2,6 +2,11 @@
 
 Namespace: `sj:` = `http://example.org/studentjobs#`
 
+## Sources & Domain Justification
+- **Job Role Classifications:** Grounded in the UK *Standard Occupational Classification (SOC 2020)* (ONS, 2020), specifically hospitality and retail elementary/service occupations (e.g., Baristas, Waiters, Kitchen Assistants, Retail Assistants, Delivery Drivers).
+- **Competency & Skill Definitions:** Standardised against the European Commission's *ESCO Skills Pillar* (European Commission, 2023) to ensure domain-appropriate canonical skill terms.
+- **Recruitment Attributes & Schedules:** Aligned with `schema:JobPosting` (Schema.org, 2024) and UK part-time student employment guidelines (UK Government, 2025; typical 10–20 hours/week, hourly pay in GBP).
+
 ## Concepts
 
 | Term | Kind | Definition |
