@@ -1,7 +1,13 @@
 # Reflective Statement & AI Audit Log
 
 ## GenAI Acknowledgement
-I acknowledge the use of Anthropic Claude (https://claude.ai) and Google Antigravity to assist in this assessment. AI tools were used for brainstorming domain concepts, scaffolding ontology syntax, drafting Python scripts, and reviewing SPARQL queries. All design decisions, reasoner validations in Protégé, and final code reviews were conducted independently.
+I acknowledge the use of Anthropic Claude (https://claude.ai) and Google Antigravity / Gemini (https://gemini.google.com) to help me complete this assessment in the following ways:
+- To help generate domain ideas, refine competency questions, and structure the Markdown reports.
+- To help format, proofread, and improve the wording of the Markdown documentation (`readme.md` and stage reports).
+- To help generate visual SVG diagrams (`system-workflow-diagram.svg`, `knowledge-graph-diagram.svg`, `ontology-diagram.svg`).
+- To help scaffold OWL 2 / Turtle syntax, Python RDFlib / Flask code, TailwindCSS HTML templates, and SPARQL queries.
+
+All conceptual modelling decisions, Protégé HermiT reasoner validations, SPARQL query verification, and final code reviews were conducted independently.
 
 ---
 
