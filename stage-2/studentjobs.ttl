@@ -7,6 +7,7 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix schema: <https://schema.org/> .
+@prefix esco: <http://data.europa.eu/esco/model#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @base <http://example.org/studentjobs> .
 
@@ -42,6 +43,14 @@ dcterms:license rdf:type owl:AnnotationProperty .
 dcterms:title rdf:type owl:AnnotationProperty .
 
 
+###  http://www.w3.org/2004/02/skos/core#closeMatch
+skos:closeMatch rdf:type owl:AnnotationProperty .
+
+
+###  http://www.w3.org/2004/02/skos/core#exactMatch
+skos:exactMatch rdf:type owl:AnnotationProperty .
+
+
 #################################################################
 #    Datatypes
 #################################################################
@@ -64,20 +73,24 @@ sj:hasSchedule rdf:type owl:ObjectProperty ;
 
 ###  http://example.org/studentjobs#locatedIn
 sj:locatedIn rdf:type owl:ObjectProperty ;
+             rdfs:subPropertyOf schema:jobLocation ;
              rdfs:domain sj:Job ;
              rdfs:range sj:Location ;
              rdfs:comment "The Scottish town or city where a vacancy is based."@en ;
-             rdfs:label "located in"@en .
+             rdfs:label "located in"@en ;
+             skos:closeMatch schema:jobLocation .
 
 
 ###  http://example.org/studentjobs#offeredBy
 sj:offeredBy rdf:type owl:ObjectProperty ;
+             rdfs:subPropertyOf schema:hiringOrganization ;
              owl:inverseOf sj:offers ;
              rdf:type owl:FunctionalProperty ;
              rdfs:domain sj:Job ;
              rdfs:range sj:Employer ;
              rdfs:comment "The employer that offers the job."@en ;
-             rdfs:label "offered by"@en .
+             rdfs:label "offered by"@en ;
+             skos:closeMatch schema:hiringOrganization .
 
 
 ###  http://example.org/studentjobs#offers
@@ -103,11 +116,13 @@ sj:requiresSkill rdf:type owl:ObjectProperty ;
 ###  http://example.org/studentjobs#hourlyPay
 sj:hourlyPay rdf:type owl:DatatypeProperty ,
                       owl:FunctionalProperty ;
+             rdfs:subPropertyOf schema:baseSalary ;
              rdfs:domain sj:Job ;
              rdfs:range xsd:decimal ;
              rdfs:comment "Pay in pounds per hour."@en ;
              rdfs:label "hourly pay"@en ;
-             rdfs:seeAlso schema:baseSalary .
+             rdfs:seeAlso schema:baseSalary ;
+             skos:closeMatch schema:baseSalary .
 
 
 ###  http://example.org/studentjobs#hoursPerWeek
@@ -121,11 +136,13 @@ sj:hoursPerWeek rdf:type owl:DatatypeProperty ,
 
 ###  http://example.org/studentjobs#jobTitle
 sj:jobTitle rdf:type owl:DatatypeProperty ;
+            rdfs:subPropertyOf schema:title ;
             rdfs:domain sj:Job ;
             rdfs:range xsd:string ;
             rdfs:comment "The advertised title of the job."@en ;
             rdfs:label "job title"@en ;
-            rdfs:seeAlso schema:title .
+            rdfs:seeAlso schema:title ;
+            skos:closeMatch schema:title .
 
 
 ###  http://example.org/studentjobs#requiresExperience
@@ -161,15 +178,18 @@ sj:DeliveryDriver rdf:type owl:Class ;
 
 ###  http://example.org/studentjobs#Employer
 sj:Employer rdf:type owl:Class ;
+            rdfs:subClassOf schema:Organization ;
             rdfs:comment "An organisation that offers jobs."@en ,
                          "Conceptually aligned with schema:Organization."@en ;
             rdfs:label "Employer"@en ;
-            rdfs:seeAlso schema:Organization .
+            rdfs:seeAlso schema:Organization ;
+            skos:closeMatch schema:Organization .
 
 
 ###  http://example.org/studentjobs#Job
 sj:Job rdf:type owl:Class ;
-       rdfs:subClassOf [ rdf:type owl:Restriction ;
+       rdfs:subClassOf schema:JobPosting ,
+                       [ rdf:type owl:Restriction ;
                          owl:onProperty sj:requiresSkill ;
                          owl:minCardinality "1"^^xsd:nonNegativeInteger
                        ] ,
@@ -180,7 +200,8 @@ sj:Job rdf:type owl:Class ;
        rdfs:comment "A paid part-time vacancy offered by an employer."@en ,
                     "Conceptually aligned with schema:JobPosting for recruitment interoperability."@en ;
        rdfs:label "Job"@en ;
-       rdfs:seeAlso schema:JobPosting .
+       rdfs:seeAlso schema:JobPosting ;
+       skos:closeMatch schema:JobPosting .
 
 
 ###  http://example.org/studentjobs#KitchenAssistant
@@ -192,10 +213,12 @@ sj:KitchenAssistant rdf:type owl:Class ;
 
 ###  http://example.org/studentjobs#Location
 sj:Location rdf:type owl:Class ;
+            rdfs:subClassOf schema:Place ;
             rdfs:comment "A Scottish town or city where a vacancy is based."@en ,
                          "Conceptually aligned with schema:Place."@en ;
             rdfs:label "Location"@en ;
-            rdfs:seeAlso schema:Place .
+            rdfs:seeAlso schema:Place ;
+            skos:closeMatch schema:Place .
 
 
 ###  http://example.org/studentjobs#MultiSkillJob
@@ -221,10 +244,12 @@ sj:RetailAssistant rdf:type owl:Class ;
 
 ###  http://example.org/studentjobs#Skill
 sj:Skill rdf:type owl:Class ;
+         rdfs:subClassOf esco:Skill ;
          rdfs:comment "A competence a person needs to do a job well."@en ,
                       "Conceptually aligned with European Skills, Competences, Qualifications and Occupations (ESCO) Skill concept."@en ;
          rdfs:label "Skill"@en ;
-         rdfs:seeAlso <http://data.europa.eu/esco/model#Skill> .
+         rdfs:seeAlso esco:Skill ;
+         skos:closeMatch esco:Skill .
 
 
 ###  http://example.org/studentjobs#StudentFriendlyJob
@@ -319,6 +344,31 @@ sj:WeekendSchedule rdf:type owl:NamedIndividual .
                 sj:WorkSchedule
               )
 ] .
+
+
+#################################################################
+#    External Ontology Alignments (Schema.org & ESCO)
+#################################################################
+
+schema:JobPosting rdf:type owl:Class ;
+                  rdfs:label "schema:JobPosting"@en .
+
+schema:Organization rdf:type owl:Class ;
+                    rdfs:label "schema:Organization"@en .
+
+schema:Place rdf:type owl:Class ;
+             rdfs:label "schema:Place"@en .
+
+esco:Skill rdf:type owl:Class ;
+           rdfs:label "esco:Skill"@en .
+
+schema:jobLocation rdf:type owl:ObjectProperty .
+
+schema:hiringOrganization rdf:type owl:ObjectProperty .
+
+schema:baseSalary rdf:type owl:DatatypeProperty .
+
+schema:title rdf:type owl:DatatypeProperty .
 
 
 ###  Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi

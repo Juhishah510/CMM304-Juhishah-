@@ -1,9 +1,11 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix esco: <http://data.europa.eu/esco/model#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix schema: <https://schema.org/> .
 @prefix sj: <http://example.org/studentjobs#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <http://example.org/studentjobs> a owl:Ontology ;
@@ -175,7 +177,9 @@ sj:hourlyPay a owl:DatatypeProperty,
     rdfs:comment "Pay in pounds per hour."@en ;
     rdfs:domain sj:Job ;
     rdfs:range xsd:decimal ;
-    rdfs:seeAlso schema:baseSalary .
+    rdfs:seeAlso schema:baseSalary ;
+    rdfs:subPropertyOf schema:baseSalary ;
+    skos:closeMatch schema:baseSalary .
 
 sj:hoursPerWeek a owl:DatatypeProperty,
         owl:FunctionalProperty ;
@@ -189,13 +193,17 @@ sj:jobTitle a owl:DatatypeProperty ;
     rdfs:comment "The advertised title of the job."@en ;
     rdfs:domain sj:Job ;
     rdfs:range xsd:string ;
-    rdfs:seeAlso schema:title .
+    rdfs:seeAlso schema:title ;
+    rdfs:subPropertyOf schema:title ;
+    skos:closeMatch schema:title .
 
 sj:locatedIn a owl:ObjectProperty ;
     rdfs:label "located in"@en ;
     rdfs:comment "The Scottish town or city where a vacancy is based."@en ;
     rdfs:domain sj:Job ;
-    rdfs:range sj:Location .
+    rdfs:range sj:Location ;
+    rdfs:subPropertyOf schema:jobLocation ;
+    skos:closeMatch schema:jobLocation .
 
 dcterms:created a owl:AnnotationProperty .
 
@@ -209,13 +217,19 @@ dcterms:title a owl:AnnotationProperty .
 
 xsd:date a rdfs:Datatype .
 
+skos:closeMatch a owl:AnnotationProperty .
+
+skos:exactMatch a owl:AnnotationProperty .
+
 sj:offeredBy a owl:FunctionalProperty,
         owl:ObjectProperty ;
     rdfs:label "offered by"@en ;
     rdfs:comment "The employer that offers the job."@en ;
     rdfs:domain sj:Job ;
     rdfs:range sj:Employer ;
-    owl:inverseOf sj:offers .
+    rdfs:subPropertyOf schema:hiringOrganization ;
+    owl:inverseOf sj:offers ;
+    skos:closeMatch schema:hiringOrganization .
 
 sj:offers a owl:ObjectProperty ;
     rdfs:label "offers"@en ;
@@ -238,6 +252,13 @@ sj:hasSchedule a owl:ObjectProperty ;
     rdfs:comment "When the job is worked."@en ;
     rdfs:domain sj:Job ;
     rdfs:range sj:WorkSchedule .
+
+schema:hiringOrganization a owl:ObjectProperty .
+
+schema:jobLocation a owl:ObjectProperty .
+
+esco:Skill a owl:Class ;
+    rdfs:label "esco:Skill"@en .
 
 sj:CashHandling a sj:Skill ;
     rdfs:label "Cash handling"@en .
@@ -285,6 +306,19 @@ sj:requiresSkill a owl:ObjectProperty ;
     rdfs:comment "The job demands this skill."@en ;
     rdfs:domain sj:Job ;
     rdfs:range sj:Skill .
+
+schema:JobPosting a owl:Class ;
+    rdfs:label "schema:JobPosting"@en .
+
+schema:Organization a owl:Class ;
+    rdfs:label "schema:Organization"@en .
+
+schema:Place a owl:Class ;
+    rdfs:label "schema:Place"@en .
+
+schema:baseSalary a owl:DatatypeProperty .
+
+schema:title a owl:DatatypeProperty .
 
 sj:Barista a owl:Class ;
     rdfs:label "Barista"@en ;
@@ -334,13 +368,17 @@ sj:Employer a owl:Class ;
     rdfs:label "Employer"@en ;
     rdfs:comment "An organisation that offers jobs."@en,
         "Conceptually aligned with schema:Organization."@en ;
-    rdfs:seeAlso schema:Organization .
+    rdfs:seeAlso schema:Organization ;
+    rdfs:subClassOf schema:Organization ;
+    skos:closeMatch schema:Organization .
 
 sj:Location a owl:Class ;
     rdfs:label "Location"@en ;
     rdfs:comment "A Scottish town or city where a vacancy is based."@en,
         "Conceptually aligned with schema:Place."@en ;
-    rdfs:seeAlso schema:Place .
+    rdfs:seeAlso schema:Place ;
+    rdfs:subClassOf schema:Place ;
+    skos:closeMatch schema:Place .
 
 sj:WeekendSchedule a sj:WorkSchedule,
         owl:NamedIndividual ;
@@ -354,7 +392,9 @@ sj:Skill a owl:Class ;
     rdfs:label "Skill"@en ;
     rdfs:comment "A competence a person needs to do a job well."@en,
         "Conceptually aligned with European Skills, Competences, Qualifications and Occupations (ESCO) Skill concept."@en ;
-    rdfs:seeAlso <http://data.europa.eu/esco/model#Skill> .
+    rdfs:seeAlso esco:Skill ;
+    rdfs:subClassOf esco:Skill ;
+    skos:closeMatch esco:Skill .
 
 sj:Job a owl:Class ;
     rdfs:label "Job"@en ;
@@ -366,7 +406,15 @@ sj:Job a owl:Class ;
             owl:onProperty sj:requiresSkill ],
         [ a owl:Restriction ;
             owl:cardinality "1"^^xsd:nonNegativeInteger ;
-            owl:onProperty sj:offeredBy ] .
+            owl:onProperty sj:offeredBy ],
+        schema:JobPosting ;
+    skos:closeMatch schema:JobPosting .
+
+[] a owl:AllDisjointClasses ;
+    owl:members ( sj:Barista sj:DeliveryDriver sj:KitchenAssistant sj:RetailAssistant sj:Waiter ) .
+
+[] a owl:AllDisjointClasses ;
+    owl:members ( sj:Employer sj:Job sj:Location sj:Skill sj:WorkSchedule ) .
 
 [] a owl:AllDifferent ;
     owl:distinctMembers ( sj:Communication sj:Teamwork sj:TimeManagement sj:CustomerService sj:CashHandling sj:FoodHygiene sj:Multitasking sj:ProblemSolving sj:PhysicalStamina sj:Numeracy ) .
@@ -379,10 +427,4 @@ sj:Job a owl:Class ;
 
 [] a owl:AllDifferent ;
     owl:distinctMembers ( sj:Aberdeen sj:Dundee sj:Glasgow sj:Edinburgh ) .
-
-[] a owl:AllDisjointClasses ;
-    owl:members ( sj:Barista sj:DeliveryDriver sj:KitchenAssistant sj:RetailAssistant sj:Waiter ) .
-
-[] a owl:AllDisjointClasses ;
-    owl:members ( sj:Employer sj:Job sj:Location sj:Skill sj:WorkSchedule ) .
 
