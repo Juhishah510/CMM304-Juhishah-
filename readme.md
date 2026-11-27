@@ -40,7 +40,7 @@ flowchart TD
 ##  Repository Organization
 
 ```text
-cmm304-student-jobs-kg-updated/
+cmm304-Juhishah/
 │   readme.md               # Official assessment documentation (this file)
 │   system-workflow-diagram.svg
 │   requirements.txt        # Python dependencies (rdflib, SPARQLWrapper, Flask)
