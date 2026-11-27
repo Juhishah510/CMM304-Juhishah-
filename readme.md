@@ -42,7 +42,6 @@ flowchart TD
 ```text
 cmm304-student-jobs-kg-updated/
 │   readme.md               # Official assessment documentation (this file)
-│   juhi.md                 # Student walkthrough, visual diagrams & viva prep (ELI5)
 │   system-workflow-diagram.svg
 │   requirements.txt        # Python dependencies (rdflib, SPARQLWrapper, Flask)
 │   reflective-statement.md # 500‑word reflection & GenAI audit log
